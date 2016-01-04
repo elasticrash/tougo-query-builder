@@ -1,6 +1,6 @@
 {
   "name": "tougo-query-builder",
-  "version": "1.2.20",
+  "version": "1.2.21",
   "description": "query builder for postgres",
   "main": "query-builder.js",
   "files": {
