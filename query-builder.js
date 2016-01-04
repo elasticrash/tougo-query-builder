@@ -45,5 +45,17 @@ module.exports = {
     },
     delete: function (what) {
         return "delete ";
+    },
+    groupby: function(attributes) {
+        var sql ="GROUP BY(";
+        if (attributes.length > 0){
+               attributes.forEach(function(attr){
+                   sql +=  attr.toString() + ",";
+               });
+            
+            sql = replace(/,$/, ")");
+            retrun sql;
+        }
+        return "attribute, values length missmatch";
     }
 }
