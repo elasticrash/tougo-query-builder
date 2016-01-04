@@ -48,12 +48,9 @@ module.exports = {
     },
     groupby: function(attributes) {
         var sql ="GROUP BY(";
-        if (attributes.length > 0){
-               attributes.forEach(function(attr){
-                   sql +=  attr.toString() + ",";
-               });
-            
-            sql = replace(/,$/, ")");
+        if (attributes.length > 0){                           
+            sql += attributes.join(" , ");           
+            sql += ")";
             return sql;
         }
         return "attribute, values length missmatch";
