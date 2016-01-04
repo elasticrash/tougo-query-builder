@@ -4,7 +4,7 @@
   "description": "query builder for postgres",
   "main": "query-builder.js",
   "files": {
-    "readme": "README",
+    "readme": "README.md",
     "changelog": "CHANGELOG"
   },
   "scripts": {
