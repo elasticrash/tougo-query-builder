@@ -4,12 +4,10 @@
 module.exports = {
     select: function (what) {
         return " select " + what;
-    }
-    ,
+    },
     from: function (table) {
         return " from " + table;
-    }
-    ,
+    },
     innerjoin: function (table1, table2, attribute) {
         return " INNER JOIN " + table2 + " ON " + table1 + "." + attribute + " = " + table2 + "." + attribute + " "
     },
@@ -54,21 +52,17 @@ module.exports = {
             return sql;
         }
         return "attribute array is empty or inconsistent";
-    }
-    union: function(query1, query2)
-    {
+    },
+    union: function(query1, query2) {
       return query1+ " UNION " +query2;
     },
-    intersect: function(query1, query2)
-    {
+    intersect: function(query1, query2) {
       return query1+ " INTERSECT " +query2;
     },
-    except: function(query1, query2)
-    {
+    except: function(query1, query2) {
       return query1+ " EXCEPT " +query2;
     },
-    orderby: function(attributes, ordertype)
-    {
+    orderby: function(attributes, ordertype) {
       var sql = " ORDER BY";
       var orderby = [];
       if (attributes.length === ordertype.length) {
