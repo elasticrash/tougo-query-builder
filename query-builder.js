@@ -54,7 +54,7 @@ module.exports = {
                });
             
             sql = replace(/,$/, ")");
-            retrun sql;
+            return sql;
         }
         return "attribute, values length missmatch";
     }
