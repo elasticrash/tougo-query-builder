@@ -73,5 +73,31 @@ module.exports = {
             return sql += orderby.join();
         }
         return "attribute, ordertype length missmatch";
+    },
+    in: function(attributes) {
+        var sql =" IN (";
+        if (attributes.length > 0){
+            sql += attributes.join();
+            sql += ")";
+            return sql;
+        }
+        return "attribute array is empty or inconsistent";
+    },
+    notin: function(attributes) {
+        var sql =" NOT IN (";
+        if (attributes.length > 0){
+            sql += attributes.join();
+            sql += ")";
+            return sql;
+        }
+        return "attribute array is empty or inconsistent";
+    },
+    between: function(value1, value2) {
+        var sql =" BETWEEN " + value1 + " AND " + value2;        
+        return sql;
+    },
+    notbetween: function(value1, value2) {
+        var sql =" BETWEEN " + value1 + " AND " + value2;        
+        return sql;
     }
 }
