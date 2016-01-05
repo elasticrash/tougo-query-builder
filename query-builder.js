@@ -79,5 +79,31 @@ module.exports = {
     primarykey: function(table) {
       var sql = "SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type FROM   pg_index i JOIN   pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE  i.indrelid = '"+ table+"'::regclass AND i.indisprimary";
       return sql;
+    },
+    in: function(attributes) {
+        var sql =" IN (";
+        if (attributes.length > 0){
+            sql += attributes.join();
+            sql += ")";
+            return sql;
+        }
+        return "attribute array is empty or inconsistent";
+    },
+    notin: function(attributes) {
+        var sql =" NOT IN (";
+        if (attributes.length > 0){
+            sql += attributes.join();
+            sql += ")";
+            return sql;
+        }
+        return "attribute array is empty or inconsistent";
+    },
+    between: function(value1, value2) {
+        var sql =" BETWEEN " + value1 + " AND " + value2;
+        return sql;
+    },
+    notbetween: function(value1, value2) {
+        var sql =" BETWEEN " + value1 + " AND " + value2;
+        return sql;
     }
 }
