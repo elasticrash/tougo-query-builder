@@ -105,5 +105,26 @@ module.exports = {
     notbetween: function(value1, value2) {
         var sql =" BETWEEN " + value1 + " AND " + value2;
         return sql;
+    },
+    spatial : {
+      GeomFromEWKT: function(srid, wkt){
+        return " ST_GeomFromEWKT('SRID="+srid+";"+wkt+"')";
+      },
+      GeomFromText: function(wkt, srid){
+        return " ST_GeomFromText('"+wkt+"',"+srid+")";
+      },
+      AsText:function(value){
+        return " ST_AsText(" +value+")";
+      },
+      Transform: function(wkt, init_srid, target_srid){
+        var gft = this.GeomFromText(wkt, init_srid);
+        return " ST_Transform("+gft+","+target_srid+")";
+      },
+      Area: function (geom_column){
+        return " ST_Area("+geom_column+")";
+      },
+      Length: function (geom_column){
+        return " ST_Length("+geom_column+")";
+      }
     }
 }
