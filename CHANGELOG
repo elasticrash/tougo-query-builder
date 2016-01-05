@@ -17,6 +17,17 @@ spatial/Transform
 spatial/Area
 spatial/Length
 
+1.2.25
+function support added:
+in
+notin
+between
+notbetween
+
+1.2.24
+function support added:
+primarykey
+
 1.2.22
 function support added:
 union
