@@ -1,35 +1,44 @@
 /**
  * Created by tougo on 19/12/15.
  */
-module.exports = {
-    select: function (what) {
-        return " SELECT " + what;
-    },
-    from: function (table) {
-        return " FROM " + table;
-    },
-    innerjoin: function (table1, table2, attribute) {
-        return " INNER JOIN " + table2 + " ON " + table1 + "." + attribute + " = " + table2 + "." + attribute;
-    },
-    leftjoin: function (table1, table2, attribute) {
-        return " LEFT JOIN " + table2 + " ON " + table1 + "." + attribute + " = " + table2 + "." + attribute;
-    },
-    where: function (expression) {
-        return " WHERE " + expression;
-    },
-    insertinto: function (table, attributes, values) {
+module.exports = function(){
+    this.select = function (what) {
+        this.query += " SELECT " + what;
+        return this;
+    };
+    this.from = function (table) {
+        this.query += " FROM " + table;
+        return this;
+    };
+    this.innerjoin = function (table1, table2, attribute) {
+        this.query += " INNER JOIN " + table2 + " ON " + table1 + "." + attribute + " = " + table2 + "." + attribute;
+        return this;
+    };
+    this.leftjoin = function (table1, table2, attribute) {
+        this.query += " LEFT JOIN " + table2 + " ON " + table1 + "." + attribute + " = " + table2 + "." + attribute;
+        return this;
+    };
+    this.where = function (expression) {
+        this.query += " WHERE " + expression;
+        return this;
+    };
+    this.insertinto = function (table, attributes, values) {
         if (attributes.length === values.length) {
-            return " INSERT INTO " + table + "(" + attributes.join() + ") VALUES " + "(" + values.join() + ")";
+            this.query += " INSERT INTO " + table + "(" + attributes.join() + ") VALUES " + "(" + values.join() + ")";
+            return this;
         }
-        return "attribute, values length missmatch";
-    },
-    insertintowithoutputid: function (table, attributes, values, keyname) {
+        this.error += "attribute, values length missmatch";
+        return this;
+    };
+    this.insertintowithoutputid = function (table, attributes, values, keyname) {
         if (attributes.length === values.length) {
-            return " INSERT INTO " + table + "(" + attributes.join() + ") VALUES " + "(" + values.join() + ") RETURNING "+ keyname ;
+            this.query += " INSERT INTO " + table + "(" + attributes.join() + ") VALUES " + "(" + values.join() + ") RETURNING "+ keyname ;
+            return this;
         }
-        return "attribute, values length missmatch";
-    },
-    update: function (table, attributes, values) {
+        this.error += "attribute, values length missmatch";
+        return this;
+    };
+    this.update = function (table, attributes, values) {
         if (attributes.length === values.length) {
             var sql = " UPDATE " + table + " SET ";
             var i;
@@ -38,32 +47,40 @@ module.exports = {
                 set.push(attributes[i] + "=" + values[i]);
             }
             sql += set.join();
-            return sql;
+            this.query += sql;
+            return this;
         }
-        return "attribute, values length missmatch";
-    },
-    delete: function () {
-        return " DELETE ";
-    },
-    groupby: function(attributes) {
+        this.error += "attribute, values length missmatch";
+        return this;
+    };
+    this.delete = function () {
+        this.query += " DELETE ";
+        return this;
+    };
+    this.groupby = function(attributes) {
         var sql =" GROUP BY(";
         if (attributes.length > 0){
             sql += attributes.join();
             sql += ")";
-            return sql;
+            this.query += sql;
+            return this;
         }
-        return "attribute array is empty or inconsistent";
-    },
-    union: function(query1, query2) {
-      return query1+ " UNION " +query2;
-    },
-    intersect: function(query1, query2) {
-      return query1+ " INTERSECT " +query2;
-    },
-    except: function(query1, query2) {
-      return query1+ " EXCEPT " +query2;
-    },
-    orderby: function(attributes, ordertype) {
+        this.error += "attribute array is empty or inconsistent";
+        return this;
+    };
+    this.union = function(query1, query2) {
+      this.query += query1+ " UNION " +query2;
+      return this;
+    };
+    this.intersect = function(query1, query2) {
+      this.query += query1+ " INTERSECT " +query2;
+      return this;
+    };
+    this.except = function(query1, query2) {
+      this.query += query1+ " EXCEPT " +query2;
+      return this;
+    };
+    this.orderby = function(attributes, ordertype) {
       var sql = " ORDER BY";
       var orderby = [];
       if (attributes.length === ordertype.length) {
@@ -72,59 +89,84 @@ module.exports = {
               orderby.push(attributes[i] + " " + ordertype[i]);
             }
             sql += orderby.join();
-            return sql;
+            this.query += sql;
+            return this;
         }
-        return "attribute, ordertype length missmatch";
-    },
-    primarykey: function(table) {
+        this.error += "attribute, ordertype length missmatch";
+        return this;
+    };
+    this.primarykey = function(table) {
       var sql = "SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type FROM   pg_index i JOIN   pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE  i.indrelid = '"+ table+"'::regclass AND i.indisprimary";
-      return sql;
-    },
-    in: function(attributes) {
+      this.query += sql;
+      return this;
+    };
+    this.in = function(attributes) {
         var sql =" IN (";
         if (attributes.length > 0){
             sql += attributes.join();
             sql += ")";
-            return sql;
+            this.query += sql;
+            return this;
         }
-        return "attribute array is empty or inconsistent";
-    },
-    notin: function(attributes) {
+        this.error += "attribute array is empty or inconsistent";
+        return this;
+    };
+    this.notin = function(attributes) {
         var sql =" NOT IN (";
         if (attributes.length > 0){
             sql += attributes.join();
             sql += ")";
-            return sql;
+            this.query += sql;
+            return this;
         }
-        return "attribute array is empty or inconsistent";
-    },
-    between: function(value1, value2) {
+        this.error += "attribute array is empty or inconsistent";
+        return this;
+    };
+    this.between = function(value1, value2) {
         var sql =" BETWEEN " + value1 + " AND " + value2;
-        return sql;
-    },
-    notbetween: function(value1, value2) {
+        this.query += sql;
+        return this;
+    };
+    this.notbetween = function(value1, value2) {
         var sql =" BETWEEN " + value1 + " AND " + value2;
-        return sql;
-    },
-    spatial : {
-      GeomFromEWKT: function(srid, wkt){
-        return " ST_GeomFromEWKT('SRID="+srid+";"+wkt+"')";
-      },
-      GeomFromText: function(wkt, srid){
-        return " ST_GeomFromText('"+wkt+"',"+srid+")";
-      },
-      AsText:function(value){
-        return " ST_AsText(" +value+")";
-      },
-      Transform: function(wkt, init_srid, target_srid){
-        var gft = this.GeomFromText(wkt, init_srid);
-        return " ST_Transform("+gft+","+target_srid+")";
-      },
-      Area: function (geom_column){
-        return " ST_Area("+geom_column+")";
-      },
-      Length: function (geom_column){
-        return " ST_Length("+geom_column+")";
+        this.query += sql;
+        return this;
+    };
+    this.spatial = function(){
+        GeomFromEWKT = function(srid, wkt){
+        this.query += " ST_GeomFromEWKT('SRID="+srid+";"+wkt+"')";
+        return this;
+      };
+      this.GeomFromText = function(wkt, srid, internal){
+        var q = " ST_GeomFromText('"+wkt+"',"+srid+")";
+        if(internal){
+          return q;
+        }
+        else {
+          this.query += q;
+        }
+        return this;
+      };
+      this.AsText = function(value){
+        this.query += " ST_AsText(" +value+")";
+        return this;
+      };
+      this.Transform = function(wkt, init_srid, target_srid){
+        var gft = this.GeomFromText(wkt, init_srid, true);
+        this.query += " ST_Transform("+gft+","+target_srid+")";
+        return this;
+      };
+      this.Area = function (geom_column){
+        this.query += " ST_Area("+geom_column+")";
+        return this;
+      };
+      this.Length = function (geom_column){
+        this.query += " ST_Length("+geom_column+")";
+        return this;
       }
+      this.query = "";
+      this.error = "";
     }
+    this.query = "";
+    this.error = "";
 }
