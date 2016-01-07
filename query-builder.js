@@ -152,6 +152,22 @@ module.exports = function(){
         this.error += "value in skip method must be an integer number";
         return this;
     };
+    this.string = function(){
+      startswith = function(column, expr){
+        this.query += " " + column + " LIKE " + expr + "% ";
+        return this;
+      };
+      this.endswith = function(column, expr){
+        this.query += " " + column + " LIKE " + "%" + expr + " " ;
+        return this;
+      };
+      this.contains = function(column, expr){
+        this.query += " " + column + " LIKE " + "%" + expr + "% ";
+        return this;
+      };
+      this.query = "";
+      this.error = "";
+    };
     this.spatial = function(){
         GeomFromEWKT = function(srid, wkt){
         this.query += " ST_GeomFromEWKT('SRID="+srid+";"+wkt+"')";
