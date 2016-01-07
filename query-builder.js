@@ -132,6 +132,26 @@ module.exports = function(){
         this.query += sql;
         return this;
     };
+    this.take = function(value1) {
+        if(typeof value1 === 'number') && (x % 1 === 0)){
+          var sql =" LIMIT " + value1;
+          this.query += sql;
+          return this;
+        }
+
+        this.error += "value in take method must be an integer number";
+        return this;
+    };
+    this.skip = function(value1) {
+        if(typeof value1 === 'number') && (x % 1 === 0)){
+          var sql =" OFFSET " + value1;
+          this.query += sql;
+          return this;
+        }
+
+        this.error += "value in skip method must be an integer number";
+        return this;
+    };
     this.spatial = function(){
         GeomFromEWKT = function(srid, wkt){
         this.query += " ST_GeomFromEWKT('SRID="+srid+";"+wkt+"')";
