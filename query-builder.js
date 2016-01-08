@@ -133,7 +133,7 @@ module.exports = function(){
         return this;
     };
     this.take = function(value1) {
-        if(typeof value1 === 'number') && (x % 1 === 0)){
+        if((typeof value1 === 'number') && (x % 1 === 0)){
           var sql =" LIMIT " + value1;
           this.query += sql;
           return this;
@@ -143,7 +143,7 @@ module.exports = function(){
         return this;
     };
     this.skip = function(value1) {
-        if(typeof value1 === 'number') && (x % 1 === 0)){
+        if((typeof value1 === 'number') && (x % 1 === 0)){
           var sql =" OFFSET " + value1;
           this.query += sql;
           return this;
