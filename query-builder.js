@@ -101,8 +101,9 @@ module.exports = function(){
       return this;
     };
     this.getcolumnsanddatatypes = function(table) {
-      var sql = "SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type FROM pg_attribute a JOIN pg_class b ON (a.attrelid = b.relfilenode) WHERE b.relname = '"+table+"' and a.attstattarget = -1"
+      var sql = "SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type FROM pg_attribute a JOIN pg_class b ON (a.attrelid = b.relfilenode) WHERE b.relname = '"+table+"' and a.attstattarget = -1";
       this.query = sql;
+      return this;
     };
     this.in = function(attributes) {
         var sql =" IN (";
