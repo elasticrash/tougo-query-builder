@@ -2,6 +2,8 @@
 query builder for postgres
 A little library for constructing raw sql queries.
 
+[LIST OF SUPPORTED FUNCTIONS](https://github.com/elasticrash/tougo-query-builder/wiki/Function-List)
+
 # examples
 ### initialize
 ```javascript

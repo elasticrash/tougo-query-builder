@@ -96,9 +96,13 @@ module.exports = function(){
         return this;
     };
     this.primarykey = function(table) {
-      var sql = "SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type FROM   pg_index i JOIN   pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE  i.indrelid = '"+ table+"'::regclass AND i.indisprimary";
-      this.query += sql;
+      var sql = "SELECT a.attname, format_type(a.atttypid, a.atttypmod) AS data_type FROM pg_index i JOIN pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) WHERE  i.indrelid = '"+ table+"'::regclass AND i.indisprimary";
+      this.query = sql;
       return this;
+    };
+    this.getcolumnsanddatatypes = function(table) {
+      var sql = "SELECT a.attname as column_name, format_type(a.atttypid, a.atttypmod) AS data_type FROM pg_attribute a JOIN pg_class b ON (a.attrelid = b.relfilenode) WHERE b.relname = '"+table+"' and a.attstattarget = -1"
+      this.query = sql;
     };
     this.in = function(attributes) {
         var sql =" IN (";
@@ -153,7 +157,7 @@ module.exports = function(){
         return this;
     };
     this.string = function(){
-      startswith = function(column, expr){
+      this.startswith = function(column, expr){
         this.query += " " + column + " LIKE " + expr + "% ";
         return this;
       };

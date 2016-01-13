@@ -1,4 +1,11 @@
 tougo-query-builder
+
+1.34
+getcolumnsanddatatypes
+string/startswith
+string/endswith
+string/contains
+
 1.3
 changed syntax to a chained type, cause some people didn't like concatenations
 :-)
