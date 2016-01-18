@@ -10,7 +10,6 @@ so as to be able, by using for example express, to write a simple rest end point
  ```javascript
  var express = require('express');
  var router = express.Router();
- var pg = require('pg');
  var path = require('path');
  var connectionString = "postgres://postgres:password@localhost:5432/database";
  var app = express();
@@ -31,7 +30,7 @@ so as to be able, by using for example express, to write a simple rest end point
      var q = new qb;
      var qstring = q.select('*').from('property').leftjoin('property','tenant', 'tenant_id');
      q.connectionstring = connectionString;
-     results = q.connectandquery(pg, res, qstring.query, results);
+     results = q.connectandquery(res, qstring.query, results);
  });
   ```
 
