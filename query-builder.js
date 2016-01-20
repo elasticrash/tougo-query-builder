@@ -2,6 +2,25 @@
  * Created by tougo on 19/12/15.
  */
  var pg = require('pg');
+ var datatypes = {
+   "bigint",
+   "bigserial",
+   "boolean",
+   "bit",
+   "bit varying",
+   "character",
+   "character varying",
+   "date",
+   "double precision",
+   "integer",
+   "money",
+   "numeric",
+   "real",
+   "smallint",
+   "text",
+   "time",
+   "timestamp"
+ };
 
 module.exports = function(){
     this.select = function (what) {
@@ -159,6 +178,19 @@ module.exports = function(){
         this.error += "value in skip method must be an integer number";
         return this;
     };
+    this.alter = function(){
+      this.addcolumn = function(table, column_name, type){
+        this.query += " ALTER TABLE "+ table + " ADD COLUMN "  + column_name + " "+ type;
+        return this;
+    };
+      this.removecolumn = function(table, column_name){
+        this.query += " ALTER TABLE "+ table + "  DROP COLUMN "  + column_name + " CASCADE";
+        return this;
+      };
+      this.query = "";
+      this.error = "";
+      this.type = datatypes;
+    };
     this.string = function(){
         this.startswith = function(column, expr){
             this.query += " " + column + " LIKE " + expr + "% ";
@@ -209,7 +241,7 @@ module.exports = function(){
         }
         this.query = "";
         this.error = "";
-    }
+    };
     this.query = "";
     this.error = "";
     this.connectionstring = "";

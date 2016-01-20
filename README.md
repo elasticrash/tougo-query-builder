@@ -2,6 +2,10 @@
 query builder for postgres
 A little library for constructing raw sql queries.
 
+@notice There are some function collections like spatial/string/alter  that need different
+initialization because we felt its better like that in order to be less confusing
+(see example 4). Anyone is welcomed to do a pull request in github
+
 @1.3.5 we added a dependency on the [pg package](https://www.npmjs.com/package/pg)
 so as to be able, by using for example express, to write a simple rest end point directly
  through this package. So don't forget to do a npm install to get the right packages.

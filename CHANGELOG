@@ -1,7 +1,13 @@
 tougo-query-builder
 
+1.3.7
+alter/addcolumn
+alter/removecolumn
+
 1.34
 getcolumnsanddatatypes
+skip
+take
 string/startswith
 string/endswith
 string/contains
@@ -13,10 +19,6 @@ changed syntax to a chained type, cause some people didn't like concatenations
 1.2.26
 function support added:
 primarykey
-in
-notin
-between
-notbetween
 spatial/GeomFromEWKT
 spatial/GeomFromText
 spatial/AsText
